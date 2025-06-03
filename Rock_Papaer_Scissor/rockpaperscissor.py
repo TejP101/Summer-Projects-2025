@@ -36,13 +36,13 @@ def play():
         computer_choice = get_computer_choice()
 
         print(f'The user chose {user_choice} and the computer chose {computer_choice}' )
-        print(winner("rock","paper"))
+        print(winner(user_choice, computer_choice))
 
         answer= input("Do you wanna play again yes or no?").lower()
         if answer != "yes":
             print("Thank you for playing!")
-        
-            break
+        break
+            
 play()
 
 
