@@ -10,7 +10,7 @@ userChoice = ''
 grids = [' ',' ',' ',' ',' ',' ',' ',' ',' ']
 
 
-def createBoard():
+def createBoard(grids):
     print(f"  {grids[0]} | {grids[1]} | {grids[2]}")
     print("  --+---+---")
     print(f"  {grids[3]} | {grids[4]} | {grids[5]}")
@@ -30,11 +30,6 @@ def get_userChoice():
     
 
       
-
-
-
-
-
 def get_computerChoice():
     computerChoice = 'O' if userFigureChoice.lower() == 'x' else 'X'
     
@@ -46,18 +41,88 @@ def get_computerChoice():
         else:
             print("Computer picked a taken spot, retrying...")
 
-        
+def checkWin(symbol):
+    if grids[0].lower() == symbol and grids[1].lower() == symbol and grids[2].lower() == symbol:
+        return True
+    elif grids[3].lower() == symbol and grids[4].lower() == symbol and grids[5].lower() == symbol:
+        return True
+    elif grids[6].lower() == symbol and grids[7].lower() == symbol and grids[8].lower() == symbol:
+        return True
+    elif grids[0].lower() == symbol and grids[3].lower() == symbol and grids[6].lower() == symbol:
+        return True
+    elif grids[1].lower() == symbol and grids[4].lower() == symbol and grids[7].lower() == symbol:
+        return True
+    elif grids[2].lower() == symbol and grids[5].lower() == symbol and grids[8].lower() == symbol:
+        return True
+    elif grids[0].lower() == symbol and grids[4].lower() == symbol and grids[8].lower() == symbol:
+        return True
+    elif grids[2].lower() == symbol and grids[4].lower() == symbol and grids[6].lower() == symbol:
+        return True
+    return False
+
+
+
 
 def play():
-    if(userFigureChoice.lower() == 'x'):
-        while True:
-            createBoard();
-            get_userChoice();
-            get_computerChoice()
-    else:
-        while True:
-            createBoard()
-            get_computerChoice();
-            get_userChoice();
+    while True:
+        computerCount = 0
+        userCount = 0
+        global grids
+
+        if userFigureChoice.lower() == 'x':
+            while True:
+                createBoard(grids)
+                result = checkWin(userFigureChoice.lower())
+                if result:
+                    print(result)
+                    userCount += 1
+                    print(f'Congratulations User won!: {userCount}')
+                    break
+
+                get_userChoice()
+                result = checkWin(userFigureChoice.lower())
+                if result:
+                    createBoard(grids)
+                    userCount += 1
+                    print(f'Congratulations User won!: {userCount}')
+                    break
+
+                get_computerChoice()
+                result = checkWin('o' if userFigureChoice.lower() == 'x' else 'x')
+                if result:
+                    createBoard(grids)
+                    computerCount += 1
+                    print(f'Congratulations Computer won!: {computerCount}')
+                    break
+        else:
+            while True:
+                createBoard(grids)
+                get_computerChoice()
+                result = checkWin('o' if userFigureChoice.lower() == 'x' else 'x')
+                if result:
+                    createBoard(grids)
+                    computerCount += 1
+                    print(f'Congratulations Computer won!: {computerCount}')
+                    break
+
+                get_userChoice()
+                result = checkWin(userFigureChoice.lower())
+                if result:
+                    createBoard(grids)
+                    userCount += 1
+                    print(f'Congratulations User won!: {userCount}')
+                    break
+
+
+        game = input("Do you wanna play again (yes/no)!").lower()
+        if game != 'yes':
+                print("Thanks for playing!")
+                break
+        else:
+                grids = [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+                print("Starting a new game!")
+        
+
+        
 
 play();
